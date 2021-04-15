@@ -11,4 +11,8 @@
    body,html{
      font-size: 16px;
    }
+a {
+  text-decoration: none;
+  color: #fff;
+ }
 </style>

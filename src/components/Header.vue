@@ -3,20 +3,22 @@
     <div class="navbar">
       <div class="nav_cont">
         <h1 class="musicBack"><a hidefocus="true" href="#">网易云音乐</a></h1>
-        <el-menu
+        <el-menu 
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
           background-color="#242424"
           text-color="#ccc"
+          :default-active="activeIndex2"
           active-text-color="#fff"
         >
           <el-menu-item
-            v-for="(item, index) in tabbar"
-            :key="index"
-            :index="index"
+            v-for="(item, key) in tabbar"
+            :key="key"
+            :index="key"
             class="ever_bar"
-            >{{ item.text }}
+            >
+            <router-link :to="item.path">{{ item.text }}</router-link>
             <sub class="cor"> </sub>
           </el-menu-item>
         </el-menu>
@@ -27,12 +29,11 @@
           </span>
         </div>
       </div>
-      <div v-show="this.signNum == 0" class="find_tabbar"></div>
-      <div v-show="this.signNum !== 0" class="m-subnav"></div>
+ 
     </div>
-    <div>
+    <!-- <div>
       <router-view></router-view>
-    </div>
+    </div> -->
   </div>
 </template>
 <script lang="ts">
@@ -41,20 +42,40 @@ import { Component, Vue } from "vue-property-decorator";
   components: {},
 })
 export default class Header extends Vue {
+  activeIndex2:number =0;
   signNum: number = 0;
   tabbar: any = [
-    { text: "发现音乐" },
-    { text: "我的音乐" },
-    { text: "朋友" },
-    { text: "商城" },
-    { text: "音乐人" },
-    { text: "下载客户端" },
+    { text: "发现音乐",path:"/Home/FindMusic",name:'findMusic' },
+    { text: "我的音乐",path:'/Home/myMusic',name:'myMusic' },
+    { text: "朋友" ,path:"/Home/Friend",name:'Frieds'},
+    { text: "商城",path:"/mall",name:'mall'},
+    { text: "音乐人",path:'/musicer',name:'musicer' },
+    { text: "下载客户端",path:'downLoad',name:'downLoad' },
   ];
+  FindMusic_tab:Array<any>=[
+      {
+        text:'推荐'
+      },
+      {
+        text:'排行榜'
+      },
+      {
+        text:'歌单'
+      },
+      {
+        text:'主播电台'
+      },
+      {
+        text:'歌手'
+      },
+      {
+        text:'新碟上架'
+      }
+  ]
   mounted() {}
   handleSelect(key: number, keypath: number) {
     console.log(key);
     this.signNum = key;
-    console.log(this.signNum, "====find_tabbar");
   }
 }
 </script>
@@ -66,6 +87,9 @@ export default class Header extends Vue {
 /deep/.is-active {
   background: #000 !important;
 }
+ router-link{
+   text-decoration: none;
+ }
 .el-menu--horizontal > .el-menu-item {
   border: none;
 }
@@ -113,12 +137,7 @@ a {
   width: 100%;
   background: #c20c0c;
 }
-.find_tabbar {
-  //发现音乐下划线
-  height: 35px;
-  width: 100%;
-  background: #c20c0c;
-}
+
 .ever_bar {
   position: relative;
   display: flex;

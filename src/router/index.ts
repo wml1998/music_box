@@ -7,11 +7,11 @@ import VueRouter, { RouteConfig } from 'vue-router'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
-  {
-    path: '/',
-    name: 'Home',
-    component:()=> import("@/views/Home/index.vue")
-  },
+  // {
+  //   path: '/',
+  //   name: 'Home',
+  //   component:()=> import("@/views/Home/index.vue")
+  // },
   {
     path: '/login',
     name: 'Login',
@@ -19,6 +19,38 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import("@/views/Login/index.vue")
+  },
+  {
+    path:"/Home",
+    name:"Home",
+    component:() =>import("@/views/Home/index.vue"),
+    children:[
+      {
+        path:'/Home/FindMusic',
+        name:'findMusic',
+        component:()=>import('@/views/FindMusic/index.vue')
+      },
+      {
+        path:'/Home/myMusic',
+        name:'myMusic',
+        component:()=>import('@/views/myMusic/index.vue')
+      },
+      {
+        path:'/Home/Friend',
+        name:"Frieds",
+        component:()=>import('@/views/Frieds/index.vue')
+      },
+      {
+        path:'/Home/Download',
+        name:'Download',
+        component:()=>import('@/views/Download/index.vue')
+      }
+    ]
+  }
+  ,
+  {
+    path:'*',
+    redirect:'/Home/FindMusic'
   }
 ]
 

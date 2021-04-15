@@ -16,6 +16,12 @@ http.interceptors.response.use((response:any) => {
 }, err => {
   return Promise.reject(err)
 })
-export const getRequest = (url:string,params={})=>{
-  return http.get(url,{params:{...params,cookie:COOKIE}})
+export const getRequest = (url:string)=>{
+  console.log(url,"请求的url")
+  return http.get(url)
+  
+}
+//带参数的请求
+export const getRequestdata = (url:string,params={})=>{
+  return http.get(url,{params:{...params}})
 }
