@@ -1,7 +1,8 @@
 <template>
   <div class="banner_box">
     <!-- <div v-for="(item,index) in banners" :key="index">1</div> -->
-    <div>
+    <!-- 用elemnetui的走马灯轮播 -->
+    <!-- <div>
       <el-carousel :autoplay="false" arrow="always" trigger="click">
         <el-carousel-item v-for="(item, index) in banners" :key="index">
           <div class="img_box">
@@ -23,12 +24,12 @@
               />
             </a>
             <div class="download_box">
-                <router-link class="dwonloadbox_box" to="/Home/Download">下载</router-link>
+                <a @click="downloadPage" class="dwonloadbox_box" to="">下载</a>
             </div>
           </div>
         </el-carousel-item>
       </el-carousel>
-    </div>
+    </div> -->
     <!-- <div class="img_box" ref="img_box">
       <div class="swiper-container" :options='swiperOptions' >
         <div class="swiper-wrapper">
@@ -43,14 +44,14 @@
     </div> -->
 
     <!-- 这个是swiper的轮播 -->
-    <!-- <Swiper :options="swiperOption">
+    <Swiper :options="swiperOption">
       <Swiper-slide v-for="(item,index) in banners" :key="index">
         <img :src="item.imageUrl" alt="">
       </Swiper-slide>
     </Swiper>
     <div class="swiper-scrollbar"></div> 
     <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div> -->
+    <div class="swiper-button-prev"></div>
   </div>
 </template>
 <script lang="ts">
@@ -75,8 +76,9 @@ export default class Banners extends Vue {
   //    @Prop(Array)! banners:any
   // swiper轮播的属性
   swiperOption: Object = {
-    autoplay: true,
-    speed: 1000,
+    interval:3000,
+    speed: 0,
+    autoplay:true,
     loop: true,
     initialSlide: 1,
     navigation: {
@@ -94,14 +96,19 @@ export default class Banners extends Vue {
     });
     // console.log("target========",id)
   }
+  downloadPage(){
+    this.$router.push({
+      path:'/Home/Download'
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>
 /deep/.el-carousel__arrow--left {
-  left: 24%;
+  left: 20%;
 }
 /deep/.el-carousel__arrow--right {
-  right: 24%;
+  right: 20%;
 }
 /deep/.el-carousel__button {
   width: 7px;
@@ -145,6 +152,7 @@ export default class Banners extends Vue {
 }
 .dwonloadbox_box{
   background: url(../assets/downicon.png) no-repeat 0 0;
+  cursor:pointer;
   display: block;
     width: 215px;
     height: 56px;

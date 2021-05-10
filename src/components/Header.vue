@@ -3,23 +3,26 @@
     <div class="navbar">
       <div class="nav_cont">
         <h1 class="musicBack"><a hidefocus="true" href="#">网易云音乐</a></h1>
-        <el-menu 
+        <el-menu
           class="el-menu-demo"
           mode="horizontal"
           @select="handleSelect"
           background-color="#242424"
           text-color="#ccc"
-          :default-active="activeIndex2"
+          :default-active="defaultUrl"
           active-text-color="#fff"
         >
+          <!-- <el-menu router unique-opened :default-active="$route.path"> -->
           <el-menu-item
             v-for="(item, key) in tabbar"
             :key="key"
             :index="key"
             class="ever_bar"
-            >
-            <router-link :to="item.path">{{ item.text }}</router-link>
-            <sub class="cor"> </sub>
+            @click="jumpTabPage(item)"
+          >
+            {{ item.text }}
+            <!-- <router-link :to="item.path">{{ item.text }}</router-link>
+            <sub class="cor"> </sub> -->
           </el-menu-item>
         </el-menu>
         <div>
@@ -29,7 +32,6 @@
           </span>
         </div>
       </div>
- 
     </div>
     <!-- <div>
       <router-view></router-view>
@@ -42,40 +44,54 @@ import { Component, Vue } from "vue-property-decorator";
   components: {},
 })
 export default class Header extends Vue {
-  activeIndex2:number =0;
+  activeIndex2: number = 0;
+  defaultUrl:any = "/Home/Friend";
   signNum: number = 0;
   tabbar: any = [
-    { text: "发现音乐",path:"/Home/FindMusic",name:'findMusic' },
-    { text: "我的音乐",path:'/Home/myMusic',name:'myMusic' },
-    { text: "朋友" ,path:"/Home/Friend",name:'Frieds'},
-    { text: "商城",path:"/mall",name:'mall'},
-    { text: "音乐人",path:'/musicer',name:'musicer' },
-    { text: "下载客户端",path:'downLoad',name:'downLoad' },
+    { text: "发现音乐", path: "/Home/FindMusic", name: "findMusic" },
+    { text: "我的音乐", path: "/Home/myMusic", name: "myMusic" },
+    { text: "朋友", path: "/Home/Friend", name: "Frieds" },
+    { text: "商城", path: "/mall", name: "mall" },
+    { text: "音乐人", path: "/musicer", name: "musicer" },
+    { text: "下载客户端", path: "downLoad", name: "downLoad" },
   ];
-  FindMusic_tab:Array<any>=[
-      {
-        text:'推荐'
-      },
-      {
-        text:'排行榜'
-      },
-      {
-        text:'歌单'
-      },
-      {
-        text:'主播电台'
-      },
-      {
-        text:'歌手'
-      },
-      {
-        text:'新碟上架'
-      }
-  ]
-  mounted() {}
+  FindMusic_tab: Array<any> = [
+    {
+      text: "推荐",
+    },
+    {
+      text: "排行榜",
+    },
+    {
+      text: "歌单",
+    },
+    {
+      text: "主播电台",
+    },
+    {
+      text: "歌手",
+    },
+    {
+      text: "新碟上架",
+    },
+  ];
+  mounted() {
+    console.log(this.defaultUrl,"-------")
+  }
   handleSelect(key: number, keypath: number) {
     console.log(key);
     this.signNum = key;
+  }
+  jumpTabPage(item: any) {
+    //  console.log(item,"=====item")
+    let currentPath = this.$route;
+    if (currentPath.path == item.path) {
+      return;
+    } else {
+      this.$router.push({
+        path: item.path,
+      });
+    }
   }
 }
 </script>
@@ -87,9 +103,9 @@ export default class Header extends Vue {
 /deep/.is-active {
   background: #000 !important;
 }
- router-link{
-   text-decoration: none;
- }
+router-link {
+  text-decoration: none;
+}
 .el-menu--horizontal > .el-menu-item {
   border: none;
 }
@@ -145,12 +161,6 @@ a {
   flex-direction: column;
   .cor {
     position: absolute;
-    // background: url(../assets/sprit.png) no-repeat -170px 40px;
-    // left: 50%;
-    // bottom: 0;
-    // width: 60px;
-    // height: 30px;
-    // overflow: hidden;
   }
 }
 </style>
