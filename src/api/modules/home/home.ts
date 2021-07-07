@@ -25,6 +25,6 @@ const RequseUrl={
 //     })
 // }
 export const getBanners = () => {
-    console.log(123123123)
+    // console.log(123123123)
     return getRequest(RequseUrl.bannerList)
   }

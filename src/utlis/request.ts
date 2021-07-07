@@ -23,5 +23,6 @@ export const getRequest = (url:string)=>{
 }
 //带参数的请求
 export const getRequestdata = (url:string,params={})=>{
+  console.log("带参数的请求",params)
   return http.get(url,{params:{...params}})
 }

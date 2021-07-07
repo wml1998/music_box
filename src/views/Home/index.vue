@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div class="cont_box">
     <!-- 导航栏的bar -->
-    <Header />
-    <router-view>
-    </router-view>
+    <Header class="headder" />
+    <div class="cont_box_box">
+      <router-view> </router-view>
+    </div>
+    
   </div>
 </template>
 <script lang="ts">
@@ -15,12 +17,9 @@ import Header from "@/components/Header.vue";
 @Component({
   components: {
     Header,
-  
   },
 })
-export default class Home extends Vue {
- 
-}
+export default class Home extends Vue {}
 </script>
 
 <style lang="scss">
@@ -29,4 +28,19 @@ export default class Home extends Vue {
   padding: 0;
   box-sizing: border-box;
 }
+.cont_box {
+  width: 100%;
+  height: 100%;
+  background: rgb(221, 211, 211);
+  display: flex;
+  flex-direction: column;
+  .headder{
+    height: 70px;
+  }
+  .cont_box_box{
+   flex: 1;
+   
+}
+}
+
 </style>

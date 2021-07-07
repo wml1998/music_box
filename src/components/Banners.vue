@@ -2,7 +2,7 @@
   <div class="banner_box">
     <!-- <div v-for="(item,index) in banners" :key="index">1</div> -->
     <!-- 用elemnetui的走马灯轮播 -->
-    <!-- <div>
+    <div>
       <el-carousel :autoplay="false" arrow="always" trigger="click">
         <el-carousel-item v-for="(item, index) in banners" :key="index">
           <div class="img_box">
@@ -29,7 +29,7 @@
           </div>
         </el-carousel-item>
       </el-carousel>
-    </div> -->
+    </div>
     <!-- <div class="img_box" ref="img_box">
       <div class="swiper-container" :options='swiperOptions' >
         <div class="swiper-wrapper">
@@ -44,14 +44,14 @@
     </div> -->
 
     <!-- 这个是swiper的轮播 -->
-    <Swiper :options="swiperOption">
+    <!-- <Swiper :options="swiperOption">
       <Swiper-slide v-for="(item,index) in banners" :key="index">
         <img :src="item.imageUrl" alt="">
       </Swiper-slide>
     </Swiper>
     <div class="swiper-scrollbar"></div> 
     <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-prev"></div> -->
   </div>
 </template>
 <script lang="ts">

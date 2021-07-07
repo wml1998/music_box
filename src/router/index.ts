@@ -28,7 +28,19 @@ const routes: Array<RouteConfig> = [
       {
         path:'/Home/FindMusic',
         name:'findMusic',
-        component:()=>import('@/views/FindMusic/index.vue')
+        component:()=>import('@/views/FindMusic/index.vue'),
+        children:[
+          {
+            path:'/Home/FindMusic/recommend',
+            name:"discover",
+            component:()=>import('@/views/FindMusic/recommend/index.vue')
+          },
+          {
+            path:'/Home/FindMusic/rankList',
+            name:"dislist",
+            component:()=>import('@/views/FindMusic/rankList/index.vue')
+          }
+        ]
       },
       {
         path:'/Home/myMusic',
@@ -44,6 +56,11 @@ const routes: Array<RouteConfig> = [
         path:'/Home/Download',
         name:'Download',
         component:()=>import('@/views/Download/index.vue')
+      },
+      {
+        path:'/Home/Mall',
+        name:"Mall",
+        component:()=>import("@/views/mall/index.vue")
       }
     ]
   }
