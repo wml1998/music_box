@@ -63,8 +63,7 @@ export default class Header extends Vue {
     let arrpath = this.$route.path.split("/");
     this.routerPathArr = arrpath;
     this.defaultUrl = this.routerPathArr.join("/");
-    this.$store.commit("getSuglist",1)
-    
+    this.$store.commit("Suglist",1)
   }
   handleSelect(key: number) {
     this.signNum = key;
@@ -87,14 +86,15 @@ export default class Header extends Vue {
     //     console.log(res.data)
     //   }
     // });
-    getsgtSearch(keywords).then((res) => {
-      if (res.status == 200) {
-        console.log(res.data.result);
+    this.$store.dispatch("getSuglist",keywords)
+    // getsgtSearch(keywords).then((res) => {
+    //   if (res.status == 200) {
+    //     console.log(res.data.result);
           
-      }else{
+    //   }else{
 
-      }
-    });
+    //   }
+    // });
    
     
   }
