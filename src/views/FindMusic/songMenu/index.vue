@@ -1,11 +1,10 @@
 <template>
     <div>
-        登录
+      歌单
     </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
-var timestamp=new Date().getTime()
 export default Vue.extend({
     
 })

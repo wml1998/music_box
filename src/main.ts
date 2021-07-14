@@ -7,7 +7,7 @@ import element from "element-ui"
 import "element-ui/lib/theme-chalk/index.css"
 import APlayer from "@moefe/vue-aplayer" 
 // import VueAwesomeSwiper from "vue-awesome-swiper"
-
+import "./assets/iconfont/iconfont.css"
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 // import 'swiper/css/swiper.css'
 

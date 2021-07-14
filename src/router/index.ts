@@ -28,6 +28,7 @@ const routes: Array<RouteConfig> = [
       {
         path:'/Home/FindMusic',
         name:'findMusic',
+        redirect:"/Home/FindMusic/recommend",
         component:()=>import('@/views/FindMusic/index.vue'),
         children:[
           {
@@ -39,6 +40,11 @@ const routes: Array<RouteConfig> = [
             path:'/Home/FindMusic/rankList',
             name:"dislist",
             component:()=>import('@/views/FindMusic/rankList/index.vue')
+          },
+          {
+            path:'/Home/FindMusic/songMenu',
+            name:"songmenu",
+            component:()=>import('@/views/FindMusic/songMenu/index.vue')
           }
         ]
       },
@@ -67,7 +73,7 @@ const routes: Array<RouteConfig> = [
   ,
   {
     path:'*',
-    redirect:'/Home/FindMusic'
+    redirect:'/Home/FindMusic/recommend'
   }
 ]
 

@@ -1,13 +1,18 @@
 <template>
     <div>
-        排行榜
+    
+
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+import { Vue, Component,Watch } from "vue-property-decorator";
+
+
+export default class rankList extends Vue{
     
-})
+
+
+}
 </script>
 
 

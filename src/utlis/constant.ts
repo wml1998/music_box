@@ -3,6 +3,7 @@ export const baseUrl: string = process.env.VUE_APP_BASE_URL
 /*
   单曲、歌手、歌单、用户、视频、专辑
 */
+
 export const SEARCH_TYPE = {
   songs: {
     type: 1,
@@ -18,7 +19,6 @@ export const SEARCH_TYPE = {
     type: 1000,
     resName: '个歌单',
     limit: 20
-
   },
   users: {
     type: 1002,
