@@ -12,6 +12,7 @@ const mutations = {
         if (payload.data) {
             if (payload.data.code == 200) {
                 state.songlistnum = payload.data.result.order
+               
             }
         } else {
             console.log("meiyou")
@@ -23,6 +24,13 @@ const mutations = {
 //定义一个actions方法
 const actions = {
     //搜索框输入时提示的内容
+    // 用async和await来有一个请求的同步效果
+    async getSuglist({commit}:any,payload:any){
+        // console.log(payload,"====payload")
+        let res= await getsgtSearch(payload)
+        commit('Suglist',res)
+    }
+    
     // getSuglist({ commit }: any, payload: any) {
     //     console.log("2")
     //     getsgtSearch(payload).then(res => {

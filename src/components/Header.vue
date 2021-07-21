@@ -76,6 +76,7 @@ export default class Header extends Vue {
   handleSelect(key: number) {
     this.signNum = key;
   }
+  //监听路由变化
   @Watch("$route")
   changeParams() {
     this.getCurrentMenu();
@@ -85,43 +86,33 @@ export default class Header extends Vue {
   getCurrentMenu() {
     this.$route.path = this.currentMenu;
   }
-  @Watch("searchsonglist")
-  changesearchsonglist(){
-    console.log("emory")
-  }
+  // @Watch("searchsonglist")
+  // changesearchsonglist(){
+  //   console.log("emory")
+  // }
 
-   async getsearchsong() {
+    getsearchsong() {
     let keywords = this.song_name;
     //用vuex方法获取数据
     if (keywords == "") {
       this.showSearchcont = false;
       return false;
     } else {
-     await getsgtSearch(keywords).then(res=>{
-        if(res.status==200){
-          this.searchsonglist=res.data.result.order
-        }
-      })
-      // this.$store.dispatch("getSuglist", keywords)
-      // console.log(4)
-      // this.searchsonglist = this.$store.state.search.songlistnum;
-      // this.showSearchcont = true;
-      // console.log(this.searchsonglist,"==this.searchsonglist")
-    
+    // 不走vuex，直接请求
+    //  await getsgtSearch(keywords).then(res=>{
+    //     if(res.status==200){
+    //       this.searchsonglist=res.data.result.order
+    //     }
+    //   })
+
+    //走vuex存数据请求数据
+      this.$store.dispatch("getSuglist", keywords).then(()=>{
+        this.searchsonglist = this.$store.state.search.songlistnum;
+        this.showSearchcont = true;
+        // console.log(this.searchsonglist,"==this.searchsonglist")
+      })    
     }
   }
-
-  // jumpTabPage(item: any) {
-  //   //  console.log(item,"=====item")
-  //   let currentPath = this.$route;
-  //   if (currentPath.path == item.path) {
-  //     return;
-  //   } else {
-  //     this.$router.push({
-  //       path: item.path,
-  //     });
-  //   }
-  // }
 }
 </script>
 
