@@ -18,9 +18,18 @@
         <div class="rowsearch_box">
           <div class="search_box">
             <span class="iconfont icon-fangdajing"></span>
-            <input class="search_input" @input="getsearchsong"  type="text" v-model="song_name" />
-            <Searchcont/>
-           
+            <input
+              class="search_input"
+              @input="getsearchsong"
+              type="text"
+              v-model="song_name"
+            />
+            <div class="musicisonlist" v-if="showSearchcont == true">
+              <div v-for="(item, index) in searchsonglist" :key="index">
+                {{ item }}
+              </div>
+            </div>
+
             <!-- <button @click="getsearchsong">搜索</button> -->
           </div>
         </div>
@@ -32,17 +41,14 @@
   </div>
 </template>
 <script lang="ts">
-
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { getsgtSearch } from "@/api/modules/search/search";
-import Searchcont  from "@/components/Searchhotslot.vue";
- 
+// import { getsgtSearch } from "@/api/modules/search/search";
+// import Searchcont from "@/components/Searchhotslot.vue";
+// import {debounce} from "@/utlis/debounce"
+import { getsgtSearch } from "@/api/modules/search/search"
 @Component({
-  components: {
-    Searchcont
-  }
+  components: {},
 })
-
 export default class Header extends Vue {
   activeIndex2: number = 0;
   defaultUrl: any = "";
@@ -50,6 +56,8 @@ export default class Header extends Vue {
   routerPathArr: Array<any> = [];
   song_name: string = "";
   currentMenu: any = "";
+  searchsonglist: any = "";
+  showSearchcont: boolean = false;
   tabbar: Array<any> = [
     { text: "发现音乐", path: "/Home/FindMusic", name: "findMusic" },
     { text: "我的音乐", path: "/Home/myMusic", name: "myMusic" },
@@ -63,7 +71,7 @@ export default class Header extends Vue {
     let arrpath = this.$route.path.split("/");
     this.routerPathArr = arrpath;
     this.defaultUrl = this.routerPathArr.join("/");
-    this.$store.commit("Suglist",1)
+    this.$store.commit("Suglist", 1);
   }
   handleSelect(key: number) {
     this.signNum = key;
@@ -73,30 +81,34 @@ export default class Header extends Vue {
     this.getCurrentMenu();
   }
   @Watch("song_name")
-  changesong_name() {
-     
-  }
+  changesong_name() {}
   getCurrentMenu() {
     this.$route.path = this.currentMenu;
   }
-  getsearchsong() {
-    let keywords = this.song_name;
-    // Searchcont(keywords,type,limit).then(res=>{
-    //   if(res.status==200){
-    //     console.log(res.data)
-    //   }
-    // });
-    this.$store.dispatch("getSuglist",keywords)
-    // getsgtSearch(keywords).then((res) => {
-    //   if (res.status == 200) {
-    //     console.log(res.data.result);
-          
-    //   }else{
+  @Watch("searchsonglist")
+  changesearchsonglist(){
+    console.log("emory")
+  }
 
-    //   }
-    // });
-   
+   async getsearchsong() {
+    let keywords = this.song_name;
+    //用vuex方法获取数据
+    if (keywords == "") {
+      this.showSearchcont = false;
+      return false;
+    } else {
+     await getsgtSearch(keywords).then(res=>{
+        if(res.status==200){
+          this.searchsonglist=res.data.result.order
+        }
+      })
+      // this.$store.dispatch("getSuglist", keywords)
+      // console.log(4)
+      // this.searchsonglist = this.$store.state.search.songlistnum;
+      // this.showSearchcont = true;
+      // console.log(this.searchsonglist,"==this.searchsonglist")
     
+    }
   }
 
   // jumpTabPage(item: any) {
@@ -139,7 +151,7 @@ a {
     text-indent: -9999px;
   }
 }
-.rowsearch_box{
+.rowsearch_box {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -159,7 +171,7 @@ a {
   //   width: 25px;
   //   height: 25px;
   // }
-  .search_input{
+  .search_input {
     margin-left: 4px;
     font-size: 14px;
   }
@@ -167,6 +179,13 @@ a {
     border: none;
     outline: none;
     width: 70%;
+  }
+  .musicisonlist{
+    background: #ccc;
+    position: absolute;
+    width: 100%;
+    top: 40px;
+    left: 0;
   }
 }
 .nav_box {

@@ -34,7 +34,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/utlis/debounce.js"  ],
+, "src/utlis/debounce.ts"  ],
   "exclude": [
     "node_modules"
   ]

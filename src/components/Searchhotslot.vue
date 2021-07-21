@@ -1,14 +1,20 @@
 <template>
   <div>
-       
+    <button @click="dian">dian</button>
+        <!-- <div v-for="(item,index) in searchsonglist" :key=index>{{item}}</div> -->
   </div>
  
 </template>
 <script lang="ts">
-import { Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 export default class Searchhot extends Vue {
-     searchsonglist:Array<object>=[];
-  
+ 
+    //  @Prop() searchsonglist!:any
+ 
+     dian(){
+      //  console.log(this.searchsonglist,"=======searchsonglist")
+     }
+ 
 
 }
 </script>
