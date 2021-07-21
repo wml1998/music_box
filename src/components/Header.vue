@@ -25,8 +25,28 @@
               v-model="song_name"
             />
             <div class="musicisonlist" v-if="showSearchcont == true">
-              <div v-for="(item, index) in searchsonglist" :key="index">
-                {{ item }}
+              <div class="search_title">搜"{{song_name}}"相关用户></div>
+              <div v-if="issingle == true" class="single">
+                <div class="search_cont_title" >单曲</div>
+                <div class="search_cont">
+                  <div v-for="(item,index) in searchData.songs" :key="index">{{item.name}}-<span>{{item.artists[0].name}}</span></div>
+                </div>
+              </div>
+              <div v-if="issinger == true" class="singer">
+                <div class="search_cont_title">歌手</div>
+                <div class="search_cont">
+                  <div v-for="(item,index) in searchData.artists" :key="index">{{item.name}}</div>
+                </div>
+              </div>
+              <div v-if="isalbum == true" class="album">
+                <div class="search_cont_title">专辑</div>
+                <div class="search_cont"> 
+                  <div v-for="(item,index) in searchData.albums" :key="index">{{item.name}}</div>
+                </div>
+              </div>
+              <div v-if="issonglist == true" class="songlist">
+                <div class="search_cont_title">歌单</div>
+                <div class="search_cont"></div>
               </div>
             </div>
 
@@ -45,18 +65,19 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 // import { getsgtSearch } from "@/api/modules/search/search";
 // import Searchcont from "@/components/Searchhotslot.vue";
 // import {debounce} from "@/utlis/debounce"
-import { getsgtSearch } from "@/api/modules/search/search"
+import { getsgtSearch } from "@/api/modules/search/search";
 @Component({
   components: {},
 })
 export default class Header extends Vue {
-  activeIndex2: number = 0;
-  defaultUrl: any = "";
-  signNum: number = 0;
-  routerPathArr: Array<any> = [];
+  issingle: boolean = false;
+  issinger: boolean = false;
+  isalbum: boolean = false;
+  issonglist: boolean = false;
   song_name: string = "";
   currentMenu: any = "";
   searchsonglist: any = "";
+  searchData:any='';
   showSearchcont: boolean = false;
   tabbar: Array<any> = [
     { text: "发现音乐", path: "/Home/FindMusic", name: "findMusic" },
@@ -67,15 +88,8 @@ export default class Header extends Vue {
     { text: "下载客户端", path: "/Home/downLoad", name: "downLoad" },
   ];
 
-  mounted() {
-    let arrpath = this.$route.path.split("/");
-    this.routerPathArr = arrpath;
-    this.defaultUrl = this.routerPathArr.join("/");
-    this.$store.commit("Suglist", 1);
-  }
-  handleSelect(key: number) {
-    this.signNum = key;
-  }
+  mounted() {}
+  handleSelect(key: number) {}
   //监听路由变化
   @Watch("$route")
   changeParams() {
@@ -91,26 +105,32 @@ export default class Header extends Vue {
   //   console.log("emory")
   // }
 
-    getsearchsong() {
+  getsearchsong() {
     let keywords = this.song_name;
     //用vuex方法获取数据
     if (keywords == "") {
       this.showSearchcont = false;
       return false;
     } else {
-    // 不走vuex，直接请求
-    //  await getsgtSearch(keywords).then(res=>{
-    //     if(res.status==200){
-    //       this.searchsonglist=res.data.result.order
-    //     }
-    //   })
+      // 不走vuex，直接请求
+      //  await getsgtSearch(keywords).then(res=>{
+      //     if(res.status==200){
+      //       this.searchsonglist=res.data.result.order
+      //     }
+      //   })
 
-    //走vuex存数据请求数据
-      this.$store.dispatch("getSuglist", keywords).then(()=>{
+      //走vuex存数据请求数据
+      this.$store.dispatch("getSuglist", keywords).then(() => {
         this.searchsonglist = this.$store.state.search.songlistnum;
+        this.searchData=this.$store.state.search.songmenulist
+        this.issingle = this.searchsonglist.includes("songs");
+        this.issinger = this.searchsonglist.includes("artists");
+        this.isalbum = this.searchsonglist.includes("albums");
+        this.issonglist = this.searchsonglist.includes("playlists");
+        console.log(this.searchData.songs)
         this.showSearchcont = true;
         // console.log(this.searchsonglist,"==this.searchsonglist")
-      })    
+      });
     }
   }
 }
@@ -171,14 +191,45 @@ a {
     outline: none;
     width: 70%;
   }
-  .musicisonlist{
-    background: #ccc;
+  .musicisonlist {
+    background: #fff;
     position: absolute;
-    width: 100%;
+    width:240px;
     top: 40px;
     left: 0;
+    border-radius: 4px;
+    font-size: 12px;
+    .search_title{
+      display: flex;
+      flex-direction: initial;
+      color: #ccc;
+      padding: 4px 0 4px 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    .search_cont:nth-child(1){
+    border: none;
+    background: #f00;
+  }
   }
 }
+.single,.singer,.album,.songlist{
+  display: flex;
+  .search_cont_title{
+    flex: 2;
+    border-right: 1px solid #ccc;
+  }
+  .search_cont{
+    flex: 8;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  // .searchcont1{
+  //   border: none;
+  // }
+  
+
+}
+
 .nav_box {
   display: flex;
   width: 780px;

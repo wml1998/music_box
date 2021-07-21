@@ -3,21 +3,23 @@ import { getsgtSearch } from "@/api/modules/search/search"
 const state: any = {
     songmenulist: null,
     songlistnum: null,
-
+    
 }
 //定义一个mutatios的方法
 const mutations = {
     Suglist(state: any, payload: any) {
         //payload接受识图传的数据
         if (payload.data) {
+            // 判断payload中是否存在数据
             if (payload.data.code == 200) {
+                state.songmenulist=payload.data.result
                 state.songlistnum = payload.data.result.order
-               
+            
             }
         } else {
-            console.log("meiyou")
+           
         }
-        console.log("4")
+        
 
     }
 }
