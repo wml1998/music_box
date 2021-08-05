@@ -1,8 +1,9 @@
-import { getsgtSearch } from "@/api/modules/search/search"
+import { getsgtSearch,getplaysong } from "@/api/modules/search/search"
 
 const state: any = {
     songmenulist: null,
     songlistnum: null,
+    playSonUrl:""
     
 }
 //定义一个mutatios的方法
@@ -19,8 +20,21 @@ const mutations = {
         } else {
            
         }
-        
 
+    },
+    //播放音乐连接
+    setSongurl(state:any,payload:any){
+        //   console.log(,"=====payload")
+    
+          if(payload.data){
+              if(payload.data.code==200){
+                  state.playSonUrl= payload.data.data[0].url
+              }else{
+                  console.log("没有成功啊")
+              }
+          }else{
+              console.log("没有服务")
+          }
     }
 }
 //定义一个actions方法
@@ -31,24 +45,13 @@ const actions = {
         // console.log(payload,"====payload")
         let res= await getsgtSearch(payload)
         commit('Suglist',res)
+    },
+    //请求获取音乐url
+    async getSongurl({commit}:any,payload:any){
+        let res = await getplaysong(payload)
+        commit('setSongurl',res)
+        // console.log(res,"=====rerere")
     }
-    
-    // getSuglist({ commit }: any, payload: any) {
-    //     console.log("2")
-    //     getsgtSearch(payload).then(res => {
-    //         // commit("Suglist", res)
-    //         if (res.data) {
-    //             if (res.data.code == 200) {
-    //                 console.log("4")
-    //                 console.log(res.data.result)
-    //                 state.songlistnum =res.data.result.order
-    //             }
-    //         } else {
-    //             console.log("没有服务")
-    //         }
-    //     })
-    // },
-
     
 }
 export default {

@@ -3,6 +3,7 @@
     <div class="navbar">
       <div class="nav_cont">
         <h1 class="musicBack"><a hidefocus="true" href="#">网易云音乐</a></h1>
+
         <div class="nav_box">
           <router-link
             v-for="(item, index) in tabbar"
@@ -25,23 +26,33 @@
               v-model="song_name"
             />
             <div class="musicisonlist" v-if="showSearchcont == true">
-              <div class="search_title">搜"{{song_name}}"相关用户></div>
+              <div class="search_title">搜"{{ song_name }}"相关用户></div>
               <div v-if="issingle == true" class="single">
-                <div class="search_cont_title" >单曲</div>
+                <div class="search_cont_title">单曲</div>
                 <div class="search_cont">
-                  <div v-for="(item,index) in searchData.songs" :key="index">{{item.name}}-<span>{{item.artists[0].name}}</span></div>
+                  <div
+                    v-for="(item, index) in searchData.songs"
+                    :key="index"
+                    @click="goSongurl(item)"
+                  >
+                    {{ item.name }}-<span>{{ item.artists[0].name }}</span>
+                  </div>
                 </div>
               </div>
               <div v-if="issinger == true" class="singer">
                 <div class="search_cont_title">歌手</div>
                 <div class="search_cont">
-                  <div v-for="(item,index) in searchData.artists" :key="index">{{item.name}}</div>
+                  <div v-for="(item, index) in searchData.artists" :key="index">
+                    {{ item.name }}
+                  </div>
                 </div>
               </div>
               <div v-if="isalbum == true" class="album">
                 <div class="search_cont_title">专辑</div>
-                <div class="search_cont"> 
-                  <div v-for="(item,index) in searchData.albums" :key="index">{{item.name}}</div>
+                <div class="search_cont">
+                  <div v-for="(item, index) in searchData.albums" :key="index">
+                    {{ item.name }}
+                  </div>
                 </div>
               </div>
               <div v-if="issonglist == true" class="songlist">
@@ -77,7 +88,7 @@ export default class Header extends Vue {
   song_name: string = "";
   currentMenu: any = "";
   searchsonglist: any = "";
-  searchData:any='';
+  searchData: any = "";
   showSearchcont: boolean = false;
   tabbar: Array<any> = [
     { text: "发现音乐", path: "/Home/FindMusic", name: "findMusic" },
@@ -122,16 +133,30 @@ export default class Header extends Vue {
       //走vuex存数据请求数据
       this.$store.dispatch("getSuglist", keywords).then(() => {
         this.searchsonglist = this.$store.state.search.songlistnum;
-        this.searchData=this.$store.state.search.songmenulist
+        this.searchData = this.$store.state.search.songmenulist;
         this.issingle = this.searchsonglist.includes("songs");
         this.issinger = this.searchsonglist.includes("artists");
         this.isalbum = this.searchsonglist.includes("albums");
         this.issonglist = this.searchsonglist.includes("playlists");
-        console.log(this.searchData.songs)
+        console.log(this.searchData.songs);
         this.showSearchcont = true;
         // console.log(this.searchsonglist,"==this.searchsonglist")
       });
     }
+  }
+  //点击歌曲去详情页
+  goSongurl(item: any) {
+    console.log(item, "===item");
+    this.$store.dispatch("getSongurl", item.id).then(() => {
+      
+    });
+
+    this.$router.push({
+        path: "/Home/Songdetail",
+        query: {
+          id: item.id,
+        }
+      });
   }
 }
 </script>
@@ -194,40 +219,42 @@ a {
   .musicisonlist {
     background: #fff;
     position: absolute;
-    width:240px;
+    z-index: 99;
+    width: 240px;
     top: 40px;
     left: 0;
     border-radius: 4px;
     font-size: 12px;
-    .search_title{
+    .search_title {
       display: flex;
       flex-direction: initial;
       color: #ccc;
       padding: 4px 0 4px 10px;
       border-bottom: 1px solid #ccc;
     }
-    .search_cont:nth-child(1){
-    border: none;
-    background: #f00;
-  }
+    .search_cont:nth-child(1) {
+      border: none;
+      background: #f00;
+    }
   }
 }
-.single,.singer,.album,.songlist{
+.single,
+.singer,
+.album,
+.songlist {
   display: flex;
-  .search_cont_title{
+  .search_cont_title {
     flex: 2;
     border-right: 1px solid #ccc;
   }
-  .search_cont{
+  .search_cont {
     flex: 8;
     border-bottom: 1px solid #ccc;
   }
-  
+
   // .searchcont1{
   //   border: none;
   // }
-  
-
 }
 
 .nav_box {

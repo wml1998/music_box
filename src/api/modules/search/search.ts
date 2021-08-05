@@ -28,8 +28,8 @@ export const getsgtSearch = (keywords:string)=>{
     return getRequestdata(SearchUrl.sgtSearch,{keywords})
 }
 //获取歌曲播放连接
-export const getplaysong = (keywords:string)=>{
-    return getRequestdata(SearchUrl.playsongurl,{keywords})
+export const getplaysong = (id:number)=>{
+    return getRequestdata(SearchUrl.playsongurl,{id})
 }
 // export const getSearchInfo = (keywords: string, type: string, currentPage: number) => {
 //     return getRequest(REQUEST_URL.cloudsearch, { keywords, type: SEARCH_TYPE[type].type, limit: SEARCH_TYPE[type].limit, offset: (currentPage - 1) * SEARCH_TYPE[type].limit }).then((res: AxiosResponse<any>) => convertSearchInfo(res, type))

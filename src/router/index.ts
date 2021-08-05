@@ -6,6 +6,8 @@ import VueRouter, { RouteConfig } from 'vue-router'
 
 Vue.use(VueRouter)
 
+
+
 const routes: Array<RouteConfig> = [
   // {
   //   path: '/',
@@ -45,6 +47,11 @@ const routes: Array<RouteConfig> = [
             path:'/Home/FindMusic/songMenu',
             name:"songmenu",
             component:()=>import('@/views/FindMusic/songMenu/index.vue')
+          },
+          {
+            path:'/Home/Songdetail',
+            name:"songdetail",
+            component:()=>import("@/views/playsong/index.vue")
           }
         ]
       },
